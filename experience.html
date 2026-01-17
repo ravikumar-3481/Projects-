@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Experience | My Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #e2e8f0;
+        }
+
+        .experience-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            background-color: rgba(30, 41, 59, 0.7);
+            box-shadow: 0 10px 30px -15px rgba(59, 130, 246, 0.3);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-up {
+            animation: slideInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        /* Timeline vertical line */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #1e293b, #3b82f6, #1e293b, transparent);
+            z-index: 0;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 20px;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body class="py-16 px-4 sm:px-6 lg:px-8">
+
+    <section class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-blue-500 font-bold tracking-widest uppercase text-sm mb-3">Career Path</h2>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Professional Experience</h1>
+            <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Experience Grid/Timeline -->
+        <div id="experience-container" class="relative timeline-container grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 py-8">
+            <!-- Loading State -->
+            <div id="loading" class="col-span-full flex flex-col items-center justify-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                <p class="text-slate-400">Loading your professional history...</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        async function fetchExperience() {
+            const container = document.getElementById('experience-container');
+            
+            try {
+                const response = await fetch('experience.json');
+                if (!response.ok) throw new Error('Failed to load JSON');
+                const experiences = await response.json();
+                
+                renderExperiences(experiences);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                container.innerHTML = `
+                    <div class="col-span-full text-center text-red-400 bg-red-950/20 p-8 rounded-xl border border-red-900/50">
+                        <i data-lucide="alert-triangle" class="mx-auto w-10 h-10 mb-4"></i>
+                        <p class="font-semibold">Unable to fetch experience data.</p>
+                        <p class="text-sm opacity-75">Please check if experience.json is in the correct directory.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function renderExperiences(data) {
+            const container = document.getElementById('experience-container');
+            container.innerHTML = ''; // Clear loading
+
+            data.forEach((exp, index) => {
+                const card = document.createElement('article');
+                card.className = `experience-card animate-up bg-slate-900/50 backdrop-blur-md p-6 md:p-8 rounded-2xl relative z-10`;
+                card.style.animationDelay = `${index * 150}ms`;
+
+                card.innerHTML = `
+                    <div class="flex flex-col h-full">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-blue-600/10 p-3 rounded-xl border border-blue-500/20">
+                                    <i data-lucide="briefcase" class="text-blue-500 w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white leading-tight">${exp.jobTitle}</h3>
+                                    <p class="text-blue-400 font-medium text-sm flex items-center gap-1 mt-1">
+                                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i> ${exp.instituteName}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-semibold whitespace-nowrap h-fit self-start">
+                                <time>${exp.startDate}</time> — <time>${exp.endDate}</time>
+                            </div>
+                        </div>
+
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            ${exp.description}
+                        </p>
+
+                        <div class="mt-auto">
+                            <h4 class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3">Core Stack</h4>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                ${exp.technologies.map(tech => `
+                                    <span class="px-2.5 py-1 bg-slate-800/80 border border-slate-700/50 rounded-md text-[11px] font-medium text-slate-300">
+                                        ${tech}
+                                    </span>
+                                `).join('')}
+                            </div>
+
+                            <div class="flex items-center justify-between pt-5 border-t border-slate-800/50">
+                                <a href="${exp.linkedinLink}" target="_blank" rel="noopener noreferrer" 
+                                   class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors group">
+                                    <div class="bg-slate-800 p-2 rounded-full group-hover:bg-blue-600/20 transition-all">
+                                        <i data-lucide="linkedin" class="w-4 h-4"></i>
+                                    </div>
+                                    View on LinkedIn
+                                </a>
+                                <div class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Initialize icons
+            lucide.createIcons();
+        }
+
+        // Run fetch on load
+        window.onload = fetchExperience;
+    </script>
+</body>
+</html>
+
