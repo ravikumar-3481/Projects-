@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional About Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary-blue: #3b82f6;
+            --bg-dark: #020617;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+        }
+
+        /* Image Mask and Shadow Effects as per Reference */
+        .image-wrapper {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.8), transparent);
+            z-index: 1;
+        }
+
+        /* Bento Stat Cards */
+        .stat-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        /* Animations */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-reveal {
+            animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="flex items-center min-h-screen">
+
+    <section id="about-container" class="max-w-7xl mx-auto px-6 py-20 w-full">
+        <!-- Target div for JS Injection -->
+        <div id="about-content" class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <!-- Content will be injected here -->
+        </div>
+    </section>
+
+    <script>
+        const AboutSection = {
+            async init() {
+                try {
+                    const response = await fetch('about.json');
+                    const data = await response.json();
+                    this.render(data);
+                } catch (err) {
+                    console.error("Failed to load about data:", err);
+                }
+            },
+
+            render(data) {
+                const container = document.getElementById('about-content');
+                container.innerHTML = `
+                    <!-- Left: Profile Image (Reference Layout) -->
+                    <div class="lg:col-span-5 animate-reveal">
+                        <div class="image-wrapper group">
+                            <img id="profile-img" src="${data.photo}" alt="${data.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute bottom-6 left-6 z-10">
+                                <span class="bg-blue-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">Professional</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Details & Bento Grid -->
+                    <div class="lg:col-span-7 flex flex-col gap-8">
+                        <div class="animate-reveal delay-1">
+                            <h2 class="text-blue-500 font-bold tracking-[0.2em] uppercase text-sm mb-3 flex items-center gap-2">
+                                <span class="w-8 h-px bg-blue-500"></span> Get to Know
+                            </h2>
+                            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                                About <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">${data.name.split(' ')[0]}</span>
+                            </h1>
+                            <p class="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl">
+                                ${data.description}
+                            </p>
+                        </div>
+
+                        <!-- Stats Area (Bento Layout) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-reveal delay-2">
+                            <div class="stat-card p-6 rounded-3xl text-center flex flex-col items-center">
+                                <div class="bg-blue-600/10 p-3 rounded-2xl mb-4 text-blue-500">
+                                    <i data-lucide="layers" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="text-3xl font-bold text-white mb-1"><span class="counter" data-val="${data.stats.projects}">0</span>+</h3>
+                                <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Completed Projects</p>
+                            </div>
+                            
+                            <div class="stat-card p-6 rounded-3xl text-center flex flex-col items-center">
+                                <div class="bg-emerald-600/10 p-3 rounded-2xl mb-4 text-emerald-500">
+                                    <i data-lucide="terminal" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="text-3xl font-bold text-white mb-1"><span class="counter" data-val="${data.stats.leetcodeSolved}">0</span>+</h3>
+                                <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">LeetCode Solved</p>
+                            </div>
+
+                            <div class="stat-card p-6 rounded-3xl text-center flex flex-col items-center">
+                                <div class="bg-indigo-600/10 p-3 rounded-2xl mb-4 text-indigo-500">
+                                    <i data-lucide="award" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="text-3xl font-bold text-white mb-1"><span class="counter" data-val="${data.stats.yearsExperience}">0</span>+</h3>
+                                <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Years Experience</p>
+                            </div>
+                        </div>
+
+                        <!-- Skills Tags -->
+                        <div class="flex flex-wrap gap-2 animate-reveal delay-2">
+                            ${data.majorSkills.map(skill => `
+                                <span class="px-4 py-2 bg-slate-800/40 border border-slate-700/50 rounded-xl text-sm font-medium text-slate-300 hover:border-blue-500 transition-colors">
+                                    ${skill}
+                                </span>
+                            `).join('')}
+                        </div>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-wrap gap-4 pt-4 animate-reveal delay-3">
+                            <a href="${data.hireMeLink}" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all flex items-center gap-3 shadow-xl shadow-blue-900/20">
+                                Let's Talk <i data-lucide="send" class="w-5 h-5"></i>
+                            </a>
+                            <a href="${data.resumeLink}" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-2xl font-bold transition-all border border-slate-700 flex items-center gap-3">
+                                Download CV <i data-lucide="download-cloud" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                this.postRender();
+            },
+
+            postRender() {
+                lucide.createIcons();
+                this.initCounters();
+            },
+
+            initCounters() {
+                const counters = document.querySelectorAll('.counter');
+                const speed = 200;
+
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-val');
+                            const increment = target / speed;
+                            
+                            const updateCount = () => {
+                                const value = +counter.innerText;
+                                if (value < target) {
+                                    counter.innerText = Math.ceil(value + increment);
+                                    setTimeout(updateCount, 1);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            updateCount();
+                        });
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.5 });
+
+                observer.observe(document.querySelector('.stat-card'));
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => AboutSection.init());
+    </script>
+</body>
+</html>
+
