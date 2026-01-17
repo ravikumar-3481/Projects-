@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "specialization": "Software Engineering",
+    "instituteName": "University of Technology",
+    "instituteLogo": "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&q=80&w=100",
+    "course": "Bachelor of Science",
+    "startDate": "Aug 2019",
+    "endDate": "May 2023",
+    "cgpa": "3.9 / 4.0",
+    "description": "Focused on advanced algorithms, distributed systems, and modern web architectures. Participated in various hackathons and research projects involving machine learning."
+  },
+  {
+    "id": 2,
+    "specialization": "Computer Science",
+    "instituteName": "City Heights High School",
+    "instituteLogo": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=100",
+    "course": "Higher Secondary Education",
+    "startDate": "July 2017",
+    "endDate": "June 2019",
+    "cgpa": "4.0 / 4.0",
+    "description": "Completed specialized coursework in Physics, Chemistry, and Mathematics with a strong emphasis on programming fundamentals and logic building."
+  }
+]
+
