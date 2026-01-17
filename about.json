@@ -1,0 +1,21 @@
+{
+  "name": "Alex Rivars",
+  "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
+  "description": "I am a passionate Full-Stack Developer and SEO Analyst with a knack for building high-performance web applications. My goal is to bridge the gap between complex backend logic and intuitive, user-friendly frontend designs. With a deep understanding of search engine algorithms, I ensure that every project I build is not only functional but also discoverable.",
+  "majorSkills": [
+    "React.js", 
+    "Node.js", 
+    "Python", 
+    "TypeScript", 
+    "SEO Optimization", 
+    "UI/UX Design"
+  ],
+  "resumeLink": "#",
+  "hireMeLink": "mailto:hello@example.com",
+  "stats": {
+    "projects": 45,
+    "leetcodeSolved": 320,
+    "yearsExperience": 5
+  }
+}
+
