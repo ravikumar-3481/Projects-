@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "jobTitle": "Senior Web Developer",
+    "instituteName": "TechFlow Solutions",
+    "startDate": "Jan 2022",
+    "endDate": "Present",
+    "description": "Leading a team of 5 developers to build scalable SaaS architectures. Optimized page speed by 40% and improved SEO rankings for 20+ clients.",
+    "technologies": ["React", "Node.js", "AWS", "PostgreSQL"],
+    "linkedinLink": "https://linkedin.com/in/username"
+  },
+  {
+    "id": 2,
+    "jobTitle": "Full Stack Engineer",
+    "instituteName": "Creative Digital Agency",
+    "startDate": "Mar 2020",
+    "endDate": "Dec 2021",
+    "description": "Developed custom e-commerce solutions and integrated complex payment gateways. Mentored junior developers and conducted code reviews.",
+    "technologies": ["Next.js", "TypeScript", "Stripe", "MongoDB"],
+    "linkedinLink": "https://linkedin.com/in/username"
+  },
+  {
+    "id": 3,
+    "jobTitle": "Frontend Developer",
+    "instituteName": "Innovate Lab",
+    "startDate": "June 2019",
+    "endDate": "Feb 2020",
+    "description": "Built responsive user interfaces for high-traffic news portals. Focused on cross-browser compatibility and mobile-first design.",
+    "technologies": ["JavaScript", "Tailwind CSS", "SASS", "Vue.js"],
+    "linkedinLink": "https://linkedin.com/in/username"
+  },
+  {
+    "id": 4,
+    "jobTitle": "Web Development Intern",
+    "instituteName": "Global Systems Inc.",
+    "startDate": "Jan 2019",
+    "endDate": "May 2019",
+    "description": "Assisted in the development of internal dashboard tools. Fixed UI bugs and optimized image assets for better performance.",
+    "technologies": ["HTML5", "CSS3", "jQuery", "PHP"],
+    "linkedinLink": "https://linkedin.com/in/username"
+  },
+  {
+    "id": 5,
+    "jobTitle": "Junior UI Designer",
+    "instituteName": "Pixel Perfect Studio",
+    "startDate": "Aug 2018",
+    "endDate": "Dec 2018",
+    "description": "Converted Figma designs into high-quality HTML/CSS templates. Created interactive prototypes for client presentations.",
+    "technologies": ["Figma", "Bootstrap", "Adobe XD"],
+    "linkedinLink": "https://linkedin.com/in/username"
+  },
+  {
+    "id": 6,
+    "jobTitle": "Freelance Web Specialist",
+    "instituteName": "Self-Employed",
+    "startDate": "Jan 2017",
+    "endDate": "July 2018",
+    "description": "Consulted with local businesses to establish their online presence. Provided full-cycle development and SEO optimization services.",
+    "technologies": ["WordPress", "SEO", "Google Analytics"],
+    "linkedinLink": "https://linkedin.com/in/username"
+  }
+]
+
