@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio | Project Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .project-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .filter-btn.active {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.5);
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Animation for filtering */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-card {
+            animation: fadeInScale 0.4s ease forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <!-- SEO Header -->
+    <header class="max-w-6xl mx-auto text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+            Featured Projects
+        </h1>
+        <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+            A collection of my recent work, blending technical excellence with creative problem-solving.
+        </p>
+    </header>
+
+    <!-- Filter Controls -->
+    <nav class="max-w-6xl mx-auto mb-12 flex flex-wrap justify-center gap-3" aria-label="Project filtering">
+        <button onclick="filterProjects('All')" class="filter-btn active px-6 py-2 rounded-full border border-slate-700 bg-slate-800/50 hover:bg-slate-700 transition-all text-sm font-medium">All</button>
+        <button onclick="filterProjects('Web App')" class="filter-btn px-6 py-2 rounded-full border border-slate-700 bg-slate-800/50 hover:bg-slate-700 transition-all text-sm font-medium">Web Apps</button>
+        <button onclick="filterProjects('Mobile')" class="filter-btn px-6 py-2 rounded-full border border-slate-700 bg-slate-800/50 hover:bg-slate-700 transition-all text-sm font-medium">Mobile</button>
+        <button onclick="filterProjects('UI/UX')" class="filter-btn px-6 py-2 rounded-full border border-slate-700 bg-slate-800/50 hover:bg-slate-700 transition-all text-sm font-medium">UI/UX</button>
+    </nav>
+
+    <!-- Project Grid -->
+    <main id="project-grid" class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Cards will be injected here via JavaScript -->
+        <div class="col-span-full text-center py-20 text-slate-500" id="loader">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p>Loading projects...</p>
+        </div>
+    </main>
+
+    <script>
+        let allProjects = [];
+
+        /**
+         * Fetches data from external JSON and initializes the display
+         */
+        async function loadProjects() {
+            try {
+                const response = await fetch('projects.json');
+                if (!response.ok) throw new Error('Failed to fetch projects');
+                allProjects = await response.json();
+                renderProjects(allProjects);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('project-grid').innerHTML = `
+                    <div class="col-span-full text-center text-red-400 py-10">
+                        <i data-lucide="alert-circle" class="mx-auto mb-2"></i>
+                        <p>Unable to load projects. Please try again later.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        /**
+         * Renders the project cards into the DOM
+         */
+        function renderProjects(projects) {
+            const grid = document.getElementById('project-grid');
+            grid.innerHTML = '';
+
+            if (projects.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center py-10 text-slate-500">No projects found in this category.</p>`;
+                return;
+            }
+
+            projects.forEach((project, index) => {
+                const card = document.createElement('article');
+                card.className = 'project-card animate-card bg-slate-800/40 border border-slate-700/50 rounded-2xl overflow-hidden backdrop-blur-sm flex flex-col h-full';
+                card.style.animationDelay = `${index * 100}ms`;
+
+                card.innerHTML = `
+                    <div class="relative group h-48 overflow-hidden">
+                        <img src="${project.image}" alt="${project.title} Preview" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-400 bg-slate-900/80 px-2 py-1 rounded">${project.category}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-2 text-white">${project.title}</h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+                            ${project.description}
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                            ${project.technologies.map(tech => `
+                                <span class="text-[10px] px-2 py-1 rounded bg-slate-700/50 text-slate-300 font-medium">
+                                    ${tech}
+                                </span>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-700/50">
+                            <a href="${project.liveLink}" target="_blank" class="flex items-center gap-2 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors">
+                                <i data-lucide="external-link" class="w-4 h-4"></i> Live Demo
+                            </a>
+                            <a href="${project.githubLink}" target="_blank" class="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+                                <i data-lucide="github" class="w-4 h-4"></i> Code
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Re-initialize Lucide icons for new content
+            lucide.createIcons();
+        }
+
+        /**
+         * Filters the projects based on category
+         */
+        function filterProjects(category) {
+            // Update UI buttons
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText === (category === 'All' ? 'All' : category + 's') || (category === 'UI/UX' && btn.innerText === 'UI/UX') || (category === 'Web App' && btn.innerText === 'Web Apps')) {
+                   btn.classList.add('active');
+                } else if (category === 'Web App' && btn.innerText === 'Web Apps') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Standardize button highlighting logic
+            buttons.forEach(btn => {
+                const btnText = btn.innerText.toLowerCase();
+                const catText = category.toLowerCase();
+                if (catText === 'all' && btnText === 'all') btn.classList.add('active');
+                else if (btnText.includes(catText)) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            // Filter data
+            const filtered = category === 'All' 
+                ? allProjects 
+                : allProjects.filter(p => p.category === category);
+            
+            renderProjects(filtered);
+        }
+
+        // Initialize on load
+        window.onload = loadProjects;
+    </script>
+</body>
+</html>
+

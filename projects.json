@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "title": "E-Commerce Dashboard",
+    "description": "A high-performance admin dashboard for managing online stores with real-time analytics and inventory tracking.",
+    "category": "Web App",
+    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+    "technologies": ["React", "Tailwind", "Firebase"],
+    "liveLink": "https://example.com",
+    "githubLink": "https://github.com"
+  },
+  {
+    "id": 2,
+    "title": "FinTech Mobile UI",
+    "description": "Modern financial application interface focusing on user experience and secure transaction visualization.",
+    "category": "UI/UX",
+    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800",
+    "technologies": ["Figma", "Next.js", "TypeScript"],
+    "liveLink": "https://example.com",
+    "githubLink": "https://github.com"
+  },
+  {
+    "id": 3,
+    "title": "AI Image Generator",
+    "description": "An interface leveraging DALL-E API to generate artistic visuals based on user text prompts.",
+    "category": "Web App",
+    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+    "technologies": ["Python", "React", "OpenAI"],
+    "liveLink": "https://example.com",
+    "githubLink": "https://github.com"
+  },
+  {
+    "id": 4,
+    "title": "Health & Fitness Tracker",
+    "description": "A comprehensive platform for users to log workouts, track nutrition, and monitor health trends.",
+    "category": "Mobile",
+    "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=800",
+    "technologies": ["Flutter", "Node.js", "MongoDB"],
+    "liveLink": "https://example.com",
+    "githubLink": "https://github.com"
+  },
+  {
+    "id": 5,
+    "title": "Cybersecurity Audit Tool",
+    "description": "Automated security scanner that identifies vulnerabilities in web applications and provides fixes.",
+    "category": "Web App",
+    "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
+    "technologies": ["Python", "Docker", "Go"],
+    "liveLink": "https://example.com",
+    "githubLink": "https://github.com"
+  },
+  {
+    "id": 6,
+    "title": "Smart Home IoT Portal",
+    "description": "Unified dashboard to control and monitor connected smart home devices through a single interface.",
+    "category": "Mobile",
+    "image": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800",
+    "technologies": ["React Native", "AWS", "MQTT"],
+    "liveLink": "https://example.com",
+    "githubLink": "https://github.com"
+  }
+]
+
