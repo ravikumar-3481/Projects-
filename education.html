@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education | Professional Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+        }
+
+        .edu-card {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            background: linear-gradient(145deg, rgba(31, 41, 55, 0.6), rgba(17, 24, 39, 0.8));
+        }
+
+        .edu-card:hover {
+            transform: translateY(-8px);
+            border-color: #6366f1;
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.2);
+        }
+
+        @keyframes fadeInBlur {
+            from {
+                opacity: 0;
+                filter: blur(10px);
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInBlur 0.8s ease-out forwards;
+        }
+
+        .cgpa-badge {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+        }
+    </style>
+</head>
+<body class="py-20 px-4">
+
+    <main class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <header class="text-center mb-16 animate-in">
+            <h2 class="text-indigo-500 font-bold uppercase tracking-[0.2em] text-xs mb-4">Qualification</h2>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">Education Journey</h1>
+            <p class="text-gray-400 max-w-xl mx-auto text-lg leading-relaxed">
+                My academic background has provided a solid foundation for my technical expertise and problem-solving skills.
+            </p>
+        </header>
+
+        <!-- Education Grid -->
+        <div id="education-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Loading Indicator -->
+            <div id="loader" class="col-span-full text-center py-20">
+                <div class="inline-block animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
+                <p class="mt-4 text-gray-500">Fetching academic records...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * Fetches education data and handles errors
+         */
+        async function loadEducation() {
+            const grid = document.getElementById('education-grid');
+            
+            try {
+                // Fetching the JSON file
+                const response = await fetch('education.json');
+                if (!response.ok) throw new Error('Data not available');
+                const data = await response.json();
+                
+                renderCards(data);
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                grid.innerHTML = `
+                    <div class="col-span-full p-8 rounded-2xl bg-red-900/10 border border-red-900/50 text-center">
+                        <i data-lucide="shield-alert" class="mx-auto w-12 h-12 text-red-500 mb-4"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Something went wrong</h3>
+                        <p class="text-gray-400 text-sm">Make sure 'education.json' is present in your project folder.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        /**
+         * Renders the academic cards into the UI
+         */
+        function renderCards(records) {
+            const grid = document.getElementById('education-grid');
+            grid.innerHTML = ''; // Clear loader
+
+            records.forEach((edu, index) => {
+                const card = document.createElement('section');
+                card.className = `edu-card animate-in border border-gray-800 p-8 rounded-3xl flex flex-col`;
+                card.style.animationDelay = `${index * 200}ms`;
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
+                        <div class="relative">
+                            <img src="${edu.instituteLogo}" alt="${edu.instituteName}" 
+                                 class="w-20 h-20 rounded-2xl object-cover border-2 border-gray-700 p-1 bg-gray-900 shadow-xl"
+                                 onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(edu.instituteName)}&background=6366f1&color=fff'">
+                            <div class="absolute -bottom-2 -right-2 bg-indigo-600 rounded-full p-1.5 border-4 border-gray-950">
+                                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-1">${edu.specialization}</h3>
+                            <p class="text-indigo-400 font-semibold flex items-center gap-2">
+                                <i data-lucide="school" class="w-4 h-4"></i>
+                                ${edu.instituteName}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-900/50 border border-gray-800 text-xs font-medium text-gray-300">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                            ${edu.course}
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-900/50 border border-gray-800 text-xs font-medium text-gray-300">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                            ${edu.startDate} - ${edu.endDate}
+                        </div>
+                    </div>
+
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">
+                        ${edu.description}
+                    </p>
+
+                    <div class="mt-auto pt-6 border-t border-gray-800 flex items-center justify-between">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-1">Academic Result</span>
+                            <div class="cgpa-badge px-4 py-1.5 rounded-full text-white font-bold text-sm shadow-lg shadow-indigo-500/20">
+                                CGPA: ${edu.cgpa}
+                            </div>
+                        </div>
+                        <div class="bg-gray-800/50 p-2 rounded-xl border border-gray-700">
+                             <i data-lucide="award" class="text-yellow-500 w-6 h-6"></i>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Initialize icons for newly added content
+            lucide.createIcons();
+        }
+
+        // Initialize script execution
+        window.addEventListener('DOMContentLoaded', loadEducation);
+    </script>
+</body>
+</html>
+
